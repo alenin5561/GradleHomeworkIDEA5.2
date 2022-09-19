@@ -1,13 +1,26 @@
+import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import static com.codeborne.selenide.Selenide.open;
+import static data.DataGenerator.*;
 import static data.DataGenerator.Registration.getRegisteredUser;
 import static data.DataGenerator.Registration.getUser;
-import static data.DataGenerator.getRandomLogin;
-import static data.DataGenerator.getRandomPassword;
+import static io.restassured.RestAssured.given;
 
 public class Test {
+    @BeforeAll
+    static void setUpAll() {
+        // сам запрос
+        given() // "дано"
+                .spec(requestSpec) // указываем, какую спецификацию используем
+                .body(new RegistrationDto("vasya", "password", "active")) // передаём в теле объект, который будет преобразован в JSON
+                .when() // "когда"
+                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
+                .then() // "тогда ожидаем"
+                .statusCode(200); // код 200 OK
+    }
 
         @BeforeEach
         void setup() {
