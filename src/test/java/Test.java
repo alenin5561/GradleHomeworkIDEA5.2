@@ -10,17 +10,6 @@ import static data.DataGenerator.Registration.getUser;
 import static io.restassured.RestAssured.given;
 
 public class Test {
-    @BeforeAll
-    static void setUpAll() {
-        // сам запрос
-        given() // "дано"
-                .spec(requestSpec) // указываем, какую спецификацию используем
-                .body(new RegistrationDto("vasya", "password", "active")) // передаём в теле объект, который будет преобразован в JSON
-                .when() // "когда"
-                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
-                .then() // "тогда ожидаем"
-                .statusCode(200); // код 200 OK
-    }
 
         @BeforeEach
         void setup() {
@@ -31,6 +20,13 @@ public class Test {
         @DisplayName("Should successfully login with active registered user")
         void shouldSuccessfulLoginIfRegisteredActiveUser() {
             var registeredUser = getRegisteredUser("active");
+            given() // "дано"
+                    .spec(requestSpec) // указываем, какую спецификацию используем
+                    .body(registeredUser) // передаём в теле объект, который будет преобразован в JSON
+                    .when() // "когда"
+                    .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
+                    .then() // "тогда ожидаем"
+                    .statusCode(200); // код 200 OK
             // TODO: добавить логику теста, в рамках которого будет выполнена попытка входа в личный кабинет с учётными
             //  данными зарегистрированного активного пользователя, для заполнения полей формы используйте
             //  пользователя registeredUser

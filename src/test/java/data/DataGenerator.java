@@ -61,7 +61,7 @@ public class DataGenerator {
 
     @Value
     public static class RegistrationDto {
-        String login;
+        String login ;
         String password;
         String status;
     }
