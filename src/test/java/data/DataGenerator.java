@@ -22,17 +22,6 @@ public class DataGenerator {
     private DataGenerator() {
     }
 
-    private static void sendRequest(RegistrationDto user) {
-        RequestSpecification requestSpec = new RequestSpecBuilder()
-                .setBaseUri("http://localhost")
-                .setPort(9999)
-                .setBody(user)
-                .setAccept(ContentType.JSON)
-                .setContentType(ContentType.JSON)
-                .log(LogDetail.ALL)
-                .build();
-    }
-
     public static String getRandomLogin() {
         String login = faker.name().username();
         return login;
