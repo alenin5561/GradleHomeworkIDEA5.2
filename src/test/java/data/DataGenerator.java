@@ -57,7 +57,7 @@ public class DataGenerator {
         }
 
         public static String getRegisteredUser(String status) {
-            registeredUser() = getUser();
+            String registeredUser = user;
             sendRequest(registeredUser);
 
             // TODO: объявить переменную registeredUser и присвоить ей значение возвращённое getUser(status).
