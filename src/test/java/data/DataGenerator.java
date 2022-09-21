@@ -9,6 +9,8 @@ import lombok.Value;
 
 import java.util.Locale;
 
+import static io.restassured.RestAssured.given;
+
 public class DataGenerator {
     public static final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
@@ -20,6 +22,18 @@ public class DataGenerator {
     private static final Faker faker = new Faker(new Locale("en"));
 
     private DataGenerator() {
+    }
+    private static void sendRequest(String user) {
+        given() // "дано"
+                .spec(requestSpec) // указываем, какую спецификацию используем
+                .body(user) // передаём в теле объект, который будет преобразован в JSON
+                .when() // "когда"
+                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
+                .then() // "тогда ожидаем"
+                .statusCode(200); // код 200 ... 500
+        // TODO: отправить запрос на указанный в требованиях path, передав в body запроса объект user
+        //  и не забудьте передать подготовленную спецификацию requestSpec.
+        //  Пример реализации метода показан в условии к задаче.
     }
 
 
@@ -37,12 +51,15 @@ public class DataGenerator {
         private Registration() {
         }
         public static RegistrationDto getUser(String status) {
-            RegistrationDto user = new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
+            RegistrationDto user = new RegistrationDto(getRandomLogin(),getRandomPassword(),status);
+            // TODO: создать пользователя user используя методы getRandomLogin(), getRandomPassword() и параметр status
             return user;
         }
 
         public static String getRegisteredUser(String status) {
-            String registeredUser = String.valueOf(getUser("active"));
+            registeredUser() = getUser();
+            sendRequest(registeredUser);
+
             // TODO: объявить переменную registeredUser и присвоить ей значение возвращённое getUser(status).
             // Послать запрос на регистрацию пользователя с помощью вызова sendRequest(registeredUser)
             return registeredUser;
