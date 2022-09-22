@@ -23,7 +23,7 @@ public class DataGenerator {
 
     private DataGenerator() {
     }
-    private static void sendRequest(String user) {
+    private static void sendRequest(RegistrationDto user) {
         given() // "дано"
                 .spec(requestSpec) // указываем, какую спецификацию используем
                 .body(user) // передаём в теле объект, который будет преобразован в JSON
@@ -31,9 +31,6 @@ public class DataGenerator {
                 .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
                 .then() // "тогда ожидаем"
                 .statusCode(200); // код 200 ... 500
-        // TODO: отправить запрос на указанный в требованиях path, передав в body запроса объект user
-        //  и не забудьте передать подготовленную спецификацию requestSpec.
-        //  Пример реализации метода показан в условии к задаче.
     }
 
 
@@ -52,16 +49,12 @@ public class DataGenerator {
         }
         public static RegistrationDto getUser(String status) {
             RegistrationDto user = new RegistrationDto(getRandomLogin(),getRandomPassword(),status);
-            // TODO: создать пользователя user используя методы getRandomLogin(), getRandomPassword() и параметр status
             return user;
         }
 
-        public static String getRegisteredUser(String status) {
-            String registeredUser = user;
-            sendRequest(registeredUser);
-
-            // TODO: объявить переменную registeredUser и присвоить ей значение возвращённое getUser(status).
-            // Послать запрос на регистрацию пользователя с помощью вызова sendRequest(registeredUser)
+        public static RegistrationDto getRegisteredUser(String status) {
+            RegistrationDto registeredUser = getUser(status);
+            DataGenerator.sendRequest(registeredUser);
             return registeredUser;
         }
     }
